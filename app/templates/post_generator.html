@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Post Generator{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Post Generator</h2>
+    <form method="POST" action="{{ url_for('smm.post_generator') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.tone.label(class="form-label") }}
+            {{ form.tone(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.topic.label(class="form-label") }}
+            {{ form.topic(class="form-control") }}
+        </div>
+        <div class="form-group form-check">
+            {{ form.generate_image(class="form-check-input") }}
+            {{ form.generate_image.label(class="form-check-label") }}
+        </div>
+        <div class="form-group form-check">
+            {{ form.autopost(class="form-check-input") }}
+            {{ form.autopost.label(class="form-check-label") }}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ form.submit() }}</button>
+    </form>
+
+    {% if post_text %}
+        <h3 class="mt-4">Generated Post</h3>
+        <p>{{ post_text }}</p>
+        {% if image_url %}
+            <img src="{{ image_url }}" alt="Generated Image" class="img-fluid" style="max-width: 300px; max-height: 300px;">
+        {% endif %}
+        {% if not autopost and not post_posted %}
+            <form method="POST" action="{{ url_for('smm.post_to_vk') }}">
+                <button type="submit" class="btn btn-primary mt-3">Post to VK</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <div class="mt-3">
+        <a href="{{ url_for('smm.new_post') }}" class="btn btn-secondary">Generate New Post</a>
+    </div>
+    <div class="mt-3">
+        <a href="{{ url_for('smm.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

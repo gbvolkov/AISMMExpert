@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block title %}VK Stats{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>VK Stats</h2>
+    <a href="{{ url_for('smm.dashboard') }}" class="btn btn-secondary mb-3">Back to Dashboard</a>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Просмотры</th>
+                    <th>Лайки</th>
+                    <th>Поделились</th>
+                    <th>Комментарии</th>
+                    <th>Подписчики</th>
+                    <th>Посетители</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row['date'] }}</td>
+                    <td>{{ row['views'] }}</td>
+                    <td>{{ row['likes'] }}</td>
+                    <td>{{ row['shares'] }}</td>
+                    <td>{{ row['comments'] }}</td>
+                    <td>{{ row['subscribers'] }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-toggle" data-toggle="collapse" data-target="#visitors-{{ loop.index }}">+</button>
+                        <div id="visitors-{{ loop.index }}" class="collapse">
+                            <div class="card card-body">
+                                <h5>Возраст</h5>
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Диапазон</th>
+                                            <th>Посетители</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in row['visitors']['age'] %}
+                                        <tr>
+                                            <td>{{ item.value }}</td>
+                                            <td>{{ item.count }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <h5>Города</h5>
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Город</th>
+                                            <th>Посетители</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in row['visitors']['cities'] %}
+                                        <tr>
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.count }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <h5>Страны</h5>
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Страна</th>
+                                            <th>Посетители</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in row['visitors']['countries'] %}
+                                        <tr>
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.count }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <h5>Мобильные просмотры</h5>
+                                <p>{{ row['visitors']['mobile_views'] }}</p>
+
+                                <h5>Пол</h5>
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Пол</th>
+                                            <th>Посетители</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in row['visitors']['sex'] %}
+                                        <tr>
+                                            <td>{{ item.value }}</td>
+                                            <td>{{ item.count }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <h5>Пол и возраст</h5>
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Диапазон</th>
+                                            <th>Пол</th>
+                                            <th>Посетители</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in row['visitors']['sex_age'] %}
+                                        <tr>
+                                            <td>{{ item.value.split(';')[1] }}</td>
+                                            <td>{{ item.value.split(';')[0] }}</td>
+                                            <td>{{ item.count }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <h5>Просмотры</h5>
+                                <p>{{ row['visitors']['views'] }}</p>
+
+                                <h5>Посетители</h5>
+                                <p>{{ row['visitors']['visitors'] }}</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ url_for('smm.dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var buttons = document.querySelectorAll('.btn-toggle');
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var target = document.querySelector(button.getAttribute('data-target'));
+                var isCollapsed = target.classList.contains('show');
+                button.textContent = isCollapsed ? '+' : '-';
+            });
+
+            // Update button text on collapse events
+            var target = document.querySelector(button.getAttribute('data-target'));
+            target.addEventListener('show.bs.collapse', function () {
+                button.textContent = '-';
+            });
+            target.addEventListener('hide.bs.collapse', function () {
+                button.textContent = '+';
+            });
+        });
+    });
+</script>
+{% endblock %}

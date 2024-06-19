@@ -1,0 +1,11 @@
+I have a Flask project structure attached, and I need assistance generating the necessary Flask application scripts. Currently, the scripts are all empty. Here are my requirements:
+
+1. Implement user registration and authorization functionality.
+2. After successful login, users should be able to enter their vk_api_key and vk_group_id.
+3. Develop pages with SMM (Social Media Management) functionality.
+4. Minimize the usage of additional Flask modules to keep the project lightweight.
+5. Please help me achieve these requirements while keeping the implementation simple and efficient.
+6. Use  SQLAlchemy and BCrypt  to store data including  user session and sensitive information (like vk_api_key, user password etc)
+7.An Flask application should be created at __init__.py.
+8. SMM functionality should include setting vk_apy_key and vk_group_id and working with SMM content - generation, observing statistics.
+9. The structure should be modular - do not put every functionality into one moulde. Work out it carefully
