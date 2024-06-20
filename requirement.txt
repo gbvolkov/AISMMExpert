@@ -1,0 +1,5 @@
+python-dotenv
+vk_api
+requests
+openai
+flask
