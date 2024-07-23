@@ -3,3 +3,4 @@ vk_api
 requests
 openai
 flask
+flask_login
